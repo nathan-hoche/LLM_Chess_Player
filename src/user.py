@@ -21,9 +21,9 @@ class UserInteraction:
                 break
             print(f"{Fore.RED}{result}{Fore.RESET}")
         print(f"{Fore.GREEN}{result}{Fore.RESET}")
-        game_status = await self.call_tool("check_game_status")
 
         print("====================== End of Turn ====================")
+        game_status = await self.call_tool("check_game_status")
         if not game_status.startswith("The game is ongoing"):
             print(game_status)
             return False
