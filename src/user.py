@@ -1,3 +1,4 @@
+from colorama import Fore
 
 class UserInteraction:
     def __init__(self, client):
@@ -9,18 +10,20 @@ class UserInteraction:
             return result[0].text
     
     async def user_turn(self) -> bool:
-        print(await self.call_tool("get_board"))
-
+        print("====================== User's Turn ====================")
+        print(f"{Fore.BLUE}Board:\n{Fore.RESET}{await self.call_tool("get_board")}\n")
         possible_moves = await self.call_tool("get_legal_moves")
-        print(f"Possible moves: {possible_moves}")
+        print(f"{Fore.BLUE}Possible moves: {Fore.RESET} {possible_moves}")
         while True:
-            decision = input("Enter your move in standard algebraic notation (e.g., e4, Nf3): ")
-            if decision in possible_moves:
+            decision = input(f"{Fore.BLUE}Enter your move in standard algebraic notation (e.g., e4, Nf3): {Fore.RESET}")
+            result = await self.call_tool("make_move", san_move=decision)
+            if f"Move {decision} has been made" in result:
                 break
-            print(f"Invalid move: {decision}. Please try again.")
-        result = await self.call_tool("make_move", san_move=decision)
-        print(result)
+            print(f"{Fore.RED}{result}{Fore.RESET}")
+        print(f"{Fore.GREEN}{result}{Fore.RESET}")
         game_status = await self.call_tool("check_game_status")
+
+        print("====================== End of Turn ====================")
         if not game_status.startswith("The game is ongoing"):
             print(game_status)
             return False
