@@ -46,7 +46,7 @@ class LLMInteraction:
         
         messages = [
             {'role': 'system', 'content': 'You are a chess player. You can make moves, check the board, and get legal moves. You are the lower case player in this game.'},
-            {'role': 'user', 'content': f'I just made my move, now it is your turn. This is the current board state:\n{board}\n. Here are the legal moves you can make:\n{possible_moves}\nPlease call the tool "make_move" with your chosen move.'},
+            {'role': 'user', 'content': f'It\'s your turn to play. This is the current board state:\n{board}\n. Here are the legal moves you can make:\n{possible_moves}\nPlease call the tool "make_move" with your chosen move.'},
         ]
 
         # Run chat with streaming and tool support
