@@ -69,12 +69,10 @@ class LLMInteraction:
                     print(f"{Fore.GREEN}Result of the move: {result}{Fore.RESET}")
                 else:
                     print(f"\n{Fore.RED}LLM called an unexpected tool: {chunk.message.tool_calls[0].function.name}{Fore.RESET}")
-            
-
 
         print("====================== End of Turn ====================")
         game_status = await self.call_tool("check_game_status")
-        if not game_status.startswith("The game is ongoing"):
+        if not game_status.startswith("The game is ongoing") and not game_status.startswith("Check!"):
             print(game_status)
             return False
         return True
