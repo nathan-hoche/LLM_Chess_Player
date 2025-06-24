@@ -20,12 +20,15 @@ class Processor:
         async with self.client:
             tools = await self.client.list_tools()
             print(Fore.LIGHTBLACK_EX + f"Available tools: {tools}" + Fore.RESET)
-            if await self.user_interaction.user_turn():
-                print(Fore.GREEN + "Your turn was successful!" + Fore.RESET)
-            if await self.llm_interaction.llm_turn():
-                print(Fore.GREEN + "LLM's turn was successful!" + Fore.RESET)
+
+            print(f'{Fore.BLUE}{(await self.call_tool("reset_board"))[0].text}{Fore.RESET}')
+            while True:
+                # LLM interaction for making a move
+                if not await self.user_interaction.user_turn() or not await self.llm_interaction.llm_turn():
+                    print(Fore.RED + "Game over!" + Fore.RESET)
+                    break
+            
+            
 
 pc = Processor()
-asyncio.run(pc.main())
-
 asyncio.run(pc.main())
